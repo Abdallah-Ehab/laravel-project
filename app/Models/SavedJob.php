@@ -1,0 +1,27 @@
+<?php
+
+namespace App\Models;
+
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
+
+class SavedJob extends Model
+{
+    use HasFactory;
+
+    protected $fillable = [
+        'candidate_id',
+        'job_listing_id',
+    ];
+
+    public function candidate(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'candidate_id');
+    }
+
+    public function jobListing(): BelongsTo
+    {
+        return $this->belongsTo(JobListing::class);
+    }
+}

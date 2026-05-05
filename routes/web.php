@@ -40,3 +40,9 @@ Route::middleware(['auth', 'candidate'])->prefix('candidate')->name('candidate.'
     Route::get('/saved-jobs', [SavedJobController::class, 'index'])->name('saved-jobs.index');
 });
 
+Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(function () {
+    Route::get('/dashboard', [AdminDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/approvals', [AdminJobApprovalController::class, 'index'])->name('approvals.index');
+    Route::patch('/jobs/{job}/approve', [AdminJobApprovalController::class, 'approve'])->name('jobs.approve');
+    Route::patch('/jobs/{job}/reject', [AdminJobApprovalController::class, 'reject'])->name('jobs.reject');
+});

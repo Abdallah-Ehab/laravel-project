@@ -29,3 +29,14 @@ Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->
     Route::get('/jobs/{job:slug}/applicants', [EmployerApplicantController::class, 'index'])->name('applicants.index');
     Route::patch('/applications/{application}/status', [EmployerApplicantController::class, 'updateStatus'])->name('applications.status');
 });
+
+Route::middleware(['auth', 'candidate'])->prefix('candidate')->name('candidate.')->group(function () {
+    Route::get('/dashboard', [CandidateDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/applications', [CandidateApplicationController::class, 'index'])->name('applications.index');
+    Route::get('/jobs/{job:slug}/apply', [CandidateApplicationController::class, 'create'])->name('apply.create');
+    Route::post('/jobs/{job:slug}/apply', [CandidateApplicationController::class, 'store'])->name('apply.store');
+    Route::delete('/applications/{application}', [CandidateApplicationController::class, 'destroy'])->name('applications.destroy');
+    Route::post('/jobs/{job:slug}/save', [SavedJobController::class, 'toggle'])->name('jobs.save');
+    Route::get('/saved-jobs', [SavedJobController::class, 'index'])->name('saved-jobs.index');
+});
+

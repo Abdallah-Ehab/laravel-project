@@ -21,3 +21,11 @@ Route::get('/dashboard', function () {
     }
     return redirect()->route('home');
 })->middleware(['auth', 'verified'])->name('dashboard');
+
+Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->group(function () {
+    Route::get('/dashboard', [EmployerDashboardController::class, 'index'])->name('dashboard');
+    Route::resource('jobs', EmployerJobController::class)->except(['index', 'show']);
+    Route::get('/jobs', [EmployerJobController::class, 'index'])->name('jobs.index');
+    Route::get('/jobs/{job:slug}/applicants', [EmployerApplicantController::class, 'index'])->name('applicants.index');
+    Route::patch('/applications/{application}/status', [EmployerApplicantController::class, 'updateStatus'])->name('applications.status');
+});

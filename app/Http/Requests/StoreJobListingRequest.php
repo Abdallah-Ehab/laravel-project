@@ -38,5 +38,7 @@ class StoreJobListingRequest extends FormRequest
         $validated['employer_id'] = $this->user()->id;
 
         return $validated;
+
+        
     }
 }

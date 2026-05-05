@@ -2,7 +2,17 @@
 
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JobListingController;
+use App\Http\Controllers\ProfileController;
+use App\Http\Controllers\Employer\DashboardController as EmployerDashboardController;
+use App\Http\Controllers\Employer\JobController as EmployerJobController;
+use App\Http\Controllers\Employer\ApplicantController as EmployerApplicantController;
+use App\Http\Controllers\Candidate\DashboardController as CandidateDashboardController;
+use App\Http\Controllers\Candidate\ApplicationController as CandidateApplicationController;
+use App\Http\Controllers\Candidate\SavedJobController;
+use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
+use App\Http\Controllers\Admin\JobApprovalController as AdminJobApprovalController;
 use Illuminate\Support\Facades\Route;
+use Inertia\Inertia;
 
 Route::get('/', [WelcomeController::class, 'index'])->name('home');
 Route::get('/jobs', [JobListingController::class, 'index'])->name('jobs.index');
@@ -46,3 +56,11 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::patch('/jobs/{job}/approve', [AdminJobApprovalController::class, 'approve'])->name('jobs.approve');
     Route::patch('/jobs/{job}/reject', [AdminJobApprovalController::class, 'reject'])->name('jobs.reject');
 });
+
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+});
+
+require __DIR__.'/auth.php';

@@ -44,6 +44,7 @@ export default function Register() {
                         <div>
                             <Label htmlFor="password">Password</Label>
                             <Input id="password" type="password" value={data.password} onChange={e => setData('password', e.target.value)} required />
+                            <p className="text-xs text-muted-foreground mt-1">Minimum 8 characters with at least one uppercase letter, one lowercase letter, and one number.</p>
                             {errors.password && <p className="text-sm text-destructive mt-1">{errors.password}</p>}
                         </div>
                         <div>

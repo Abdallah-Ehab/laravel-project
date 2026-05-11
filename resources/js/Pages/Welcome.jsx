@@ -7,7 +7,7 @@ import { Card, CardContent } from '@/ui/card';
 
 export default function Welcome({ recentJobs, canLogin, canRegister }) {
 
-    
+
     return (
         <AppLayout title="Home">
             <section className="text-center py-16 px-4">

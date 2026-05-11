@@ -15,10 +15,8 @@ class SavedJobController extends Controller
             ->with(['category'])
             ->wherePivot('candidate_id', Auth::id())
             ->latest('saved_jobs.created_at')
-            ->paginate(12);
-
-        return Inertia::render('Candidate/SavedJobs', [
-            'savedJobs' => fn() => $savedJobs->map(fn($job) => [
+            ->paginate(12)
+            ->through(fn($job) => [
                 'id' => $job->id,
                 'slug' => $job->slug,
                 'title' => $job->title,
@@ -30,7 +28,10 @@ class SavedJobController extends Controller
                 'salary_max' => $job->salary_max,
                 'created_at' => $job->created_at->diffForHumans(),
                 'category' => $job->category?->only(['id', 'name', 'slug']),
-            ]),
+            ]);
+
+        return Inertia::render('Candidate/SavedJobs', [
+            'savedJobs' => $savedJobs,
         ]);
     }
 

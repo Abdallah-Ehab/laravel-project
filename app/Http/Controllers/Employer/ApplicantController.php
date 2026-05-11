@@ -22,11 +22,8 @@ class ApplicantController extends Controller
         $applications = $job->applications()
             ->with('candidate')
             ->latest()
-            ->paginate(15);
-
-        return Inertia::render('Employer/Applicants', [
-            'job' => $job->only(['id', 'title', 'slug']),
-            'applications' => fn() => $applications->map(fn($app) => [
+            ->paginate(15)
+            ->through(fn($app) => [
                 'id' => $app->id,
                 'candidate_name' => $app->candidate->name,
                 'candidate_email' => $app->candidate->email,
@@ -36,7 +33,11 @@ class ApplicantController extends Controller
                 'cover_note' => $app->cover_note,
                 'status' => $app->status,
                 'created_at' => $app->created_at->format('M d, Y'),
-            ]),
+            ]);
+
+        return Inertia::render('Employer/Applicants', [
+            'job' => $job->only(['id', 'title', 'slug']),
+            'applications' => $applications,
         ]);
     }
 

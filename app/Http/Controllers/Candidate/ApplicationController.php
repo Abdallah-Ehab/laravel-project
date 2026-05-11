@@ -17,10 +17,8 @@ class ApplicationController extends Controller
         $applications = Auth::user()->applications()
             ->with(['jobListing' => fn($q) => $q->with('category')])
             ->latest()
-            ->paginate(10);
-
-        return Inertia::render('Candidate/Applications', [
-            'applications' => fn() => $applications->map(fn($app) => [
+            ->paginate(10)
+            ->through(fn($app) => [
                 'id' => $app->id,
                 'job_title' => $app->jobListing->title,
                 'job_slug' => $app->jobListing->slug,
@@ -30,7 +28,10 @@ class ApplicationController extends Controller
                 'status' => $app->status,
                 'cover_note' => $app->cover_note,
                 'created_at' => $app->created_at->format('M d, Y'),
-            ]),
+            ]);
+
+        return Inertia::render('Candidate/Applications', [
+            'applications' => $applications,
         ]);
     }
 

@@ -19,10 +19,8 @@ class JobController extends Controller
             ->withCount('applications')
             ->with('category')
             ->latest()
-            ->paginate(10);
-
-        return Inertia::render('Employer/Jobs/Index', [
-            'jobs' => fn() => $jobs->map(fn($job) => [
+            ->paginate(10)
+            ->through(fn($job) => [
                 'id' => $job->id,
                 'title' => $job->title,
                 'slug' => $job->slug,
@@ -33,7 +31,10 @@ class JobController extends Controller
                 'applications_count' => $job->applications_count,
                 'created_at' => $job->created_at->format('M d, Y'),
                 'category' => $job->category?->only(['id', 'name']),
-            ]),
+            ]);
+
+        return Inertia::render('Employer/Jobs/Index', [
+            'jobs' => $jobs,
         ]);
     }
 

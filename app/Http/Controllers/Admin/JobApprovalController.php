@@ -3,8 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
+use App\Mail\JobApprovedMail;
+use App\Mail\JobRejectedMail;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Mail;
+
 use Inertia\Inertia;
 
 class JobApprovalController extends Controller
@@ -13,26 +18,25 @@ class JobApprovalController extends Controller
     {
         $query = JobListing::with(['employer', 'category']);
 
-        if ($request->status && $request->status !== 'all') {
-            $query->where('status', $request->status);
+
+        if ($request->status === 'all') {
+            $query->latest();
+        } else {
+            $query->where('status', $request->status ?? 'pending')->latest();
         }
 
-        $jobs = $query->latest()->paginate(15)->withQueryString()->through(fn($job) => [
+        $jobs = $query->paginate(15)->through(fn($job) => [
             'id' => $job->id,
-            'slug' => $job->slug,
             'title' => $job->title,
+            'slug' => $job->slug,
             'company_name' => $job->company_name,
-            'employer_name' => $job->employer?->name,
-            'description' => $job->description,
-            'requirements' => $job->requirements,
-            'benefits' => $job->benefits,
-            'salary_min' => $job->salary_min,
-            'salary_max' => $job->salary_max,
+            'employer_name' => $job->employer->name,
+            'employer_email' => $job->employer->email,
             'location' => $job->location,
-            'work_type' => $job->work_type,
             'status' => $job->status,
-            'created_at' => $job->created_at->diffForHumans(),
-            'category' => $job->category?->only(['id', 'name', 'slug']),
+            'created_at' => $job->created_at->format('M d, Y'),
+            'category' => $job->category?->only(['id', 'name']),
+
         ]);
 
         return Inertia::render('Admin/JobApprovals', [
@@ -45,15 +49,18 @@ class JobApprovalController extends Controller
     {
         $job->update(['status' => 'approved']);
 
-        return back()->with('success', 'Job approved successfully.');
+
+        Mail::to($job->employer->email)->queue(new JobApprovedMail($job));
+
+        return back()->with('success', 'Job listing approved.');
     }
 
-    public function reject(Request $request, JobListing $job)
+    public function reject(JobListing $job, Request $request)
     {
-        $request->validate(['reason' => 'nullable|string|max:500']);
-
         $job->update(['status' => 'rejected']);
 
-        return back()->with('success', 'Job rejected.');
+        Mail::to($job->employer->email)->queue(new JobRejectedMail($job, $request->reason));
+
+        return back()->with('success', 'Job listing rejected.');
     }
 }

@@ -50,23 +50,23 @@ class JobListingController extends Controller
             };
         }
 
-        $jobs = $query->latest()->paginate(12)->withQueryString();
+        $jobs = $query->latest()->paginate(12)->withQueryString()->through(fn($job) => [
+            'id' => $job->id,
+            'slug' => $job->slug,
+            'title' => $job->title,
+            'company_name' => $job->company_name,
+            'company_logo' => $job->company_logo ? asset('storage/' . $job->company_logo) : null,
+            'location' => $job->location,
+            'work_type' => $job->work_type,
+            'experience_level' => $job->experience_level,
+            'salary_min' => $job->salary_min,
+            'salary_max' => $job->salary_max,
+            'created_at' => $job->created_at->diffForHumans(),
+            'category' => $job->category?->only(['id', 'name', 'slug']),
+        ]);
 
         return Inertia::render('Jobs/Index', [
-            'jobs' => fn() => $jobs->map(fn($job) => [
-                'id' => $job->id,
-                'slug' => $job->slug,
-                'title' => $job->title,
-                'company_name' => $job->company_name,
-                'company_logo' => $job->company_logo ? asset('storage/' . $job->company_logo) : null,
-                'location' => $job->location,
-                'work_type' => $job->work_type,
-                'experience_level' => $job->experience_level,
-                'salary_min' => $job->salary_min,
-                'salary_max' => $job->salary_max,
-                'created_at' => $job->created_at->diffForHumans(),
-                'category' => $job->category?->only(['id', 'name', 'slug']),
-            ]),
+            'jobs' => $jobs,
             'categories' => Category::all(),
             'filters' => $request->only(['keyword', 'category', 'location', 'work_type', 'experience_level', 'salary_min', 'date_posted']),
         ]);

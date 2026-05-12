@@ -3,11 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+
 use App\Mail\JobApprovedMail;
 use App\Mail\JobRejectedMail;
 use App\Models\JobListing;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Mail;
+
 use Inertia\Inertia;
 
 class JobApprovalController extends Controller
@@ -15,6 +17,7 @@ class JobApprovalController extends Controller
     public function index(Request $request)
     {
         $query = JobListing::with(['employer', 'category']);
+
 
         if ($request->status === 'all') {
             $query->latest();
@@ -33,6 +36,7 @@ class JobApprovalController extends Controller
             'status' => $job->status,
             'created_at' => $job->created_at->format('M d, Y'),
             'category' => $job->category?->only(['id', 'name']),
+
         ]);
 
         return Inertia::render('Admin/JobApprovals', [
@@ -44,6 +48,7 @@ class JobApprovalController extends Controller
     public function approve(JobListing $job)
     {
         $job->update(['status' => 'approved']);
+
 
         Mail::to($job->employer->email)->queue(new JobApprovedMail($job));
 

@@ -14,7 +14,7 @@ export default {
     theme: {
         extend: {
             fontFamily: {
-                sans: ['Figtree', ...defaultTheme.fontFamily.sans],
+                sans: ['Inter', ...defaultTheme.fontFamily.sans],
             },
             colors: {
                 border: 'hsl(var(--border))',
@@ -49,6 +49,12 @@ export default {
                 card: {
                     DEFAULT: 'hsl(var(--card))',
                     foreground: 'hsl(var(--card-foreground))',
+                },
+                workbridge: {
+                    green: '#14a800',
+                    'green-hover': '#108a00',
+                    'green-light': '#f0faf0',
+                    navy: '#1a1f36',
                 },
             },
             borderRadius: {

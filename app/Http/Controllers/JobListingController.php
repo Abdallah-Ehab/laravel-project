@@ -74,7 +74,7 @@ class JobListingController extends Controller
 
     public function show(JobListing $job)
     {
-        if ($job->status !== 'approved') {
+        if ($job->status !== 'approved' && !auth()->user()?->isAdmin()) {
             abort(404);
         }
 

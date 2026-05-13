@@ -41,6 +41,10 @@ class JobListingController extends Controller
             $query->where('salary_max', '>=', $request->salary_min);
         }
 
+        if ($request->filled('salary_max')) {
+            $query->where('salary_min', '<=', $request->salary_max);
+        }
+
         if ($request->filled('date_posted')) {
             match ($request->date_posted) {
                 'today' => $query->whereDate('created_at', now()),
@@ -50,7 +54,13 @@ class JobListingController extends Controller
             };
         }
 
-        $jobs = $query->latest()->paginate(12)->withQueryString()->through(fn($job) => [
+        $sort = $request->query('sort', 'recent');
+        match ($sort) {
+            'salary' => $query->orderBy('salary_max', 'desc'),
+            default => $query->latest(),
+        };
+
+        $jobs = $query->paginate(12)->withQueryString()->through(fn($job) => [
             'id' => $job->id,
             'slug' => $job->slug,
             'title' => $job->title,
@@ -68,7 +78,7 @@ class JobListingController extends Controller
         return Inertia::render('Jobs/Index', [
             'jobs' => $jobs,
             'categories' => Category::all(),
-            'filters' => $request->only(['keyword', 'category', 'location', 'work_type', 'experience_level', 'salary_min', 'date_posted']),
+            'filters' => $request->only(['keyword', 'category', 'location', 'work_type', 'experience_level', 'salary_min', 'salary_max', 'date_posted', 'sort']),
         ]);
     }
 

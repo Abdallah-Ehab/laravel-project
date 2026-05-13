@@ -48,24 +48,29 @@ export default function Welcome({ recentJobs, canLogin, canRegister }) {
                 </div>
 
                 {/* Search Bar */}
-                <div className="max-w-2xl mx-auto mt-10 relative">
+                <form
+                    onSubmit={(e) => {
+                        e.preventDefault();
+                        const keyword = e.target.keyword.value.trim();
+                        window.location.href = route('jobs.index', keyword ? { keyword } : {});
+                    }}
+                    className="max-w-2xl mx-auto mt-10 relative"
+                >
                     <div className="flex items-center bg-white border border-gray-200 rounded-xl shadow-sm overflow-hidden">
                         <div className="flex-1 flex items-center px-4">
                             <Search className="h-5 w-5 text-gray-400" />
                             <input
                                 type="text"
+                                name="keyword"
                                 placeholder="Search for jobs or skills..."
                                 className="flex-1 h-14 px-3 text-sm outline-none border-0 bg-transparent"
-                                onKeyDown={(e) => e.key === 'Enter' && (window.location.href = route('jobs.index', { keyword: e.target.value }))}
                             />
                         </div>
-                        <Link href={route('jobs.index')}>
-                            <Button className="h-14 px-6 bg-[#14a800] hover:bg-[#108a00] text-white rounded-none rounded-r-xl">
-                                Search
-                            </Button>
-                        </Link>
+                        <Button type="submit" className="h-14 px-6 bg-[#14a800] hover:bg-[#108a00] text-white rounded-none rounded-r-xl">
+                            Search
+                        </Button>
                     </div>
-                </div>
+                </form>
 
                 {/* Category Pills */}
                 <div className="flex items-center justify-center gap-2 mt-6 flex-wrap">

@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Search, Bell, Menu, Home, Briefcase, Building2, ShieldCheck, Bookmark, FileText, User, Settings, LogOut, Users, X } from 'lucide-react';
+import { Search, Bell, Menu, Home, Briefcase, Building2, ShieldCheck, Bookmark, FileText, User, Settings, LogOut, Users, X, MessageCircle } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Button } from '@/ui/button';
 import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
@@ -26,12 +26,14 @@ export default function AppLayout({ children, title }) {
     const navLinks = {
         employer: [
             { label: 'Dashboard', href: route('employer.dashboard'), icon: Home },
+            { label: 'Messages', href: route('messages.index'), icon: MessageCircle },
             { label: 'Post a Job', href: route('employer.jobs.create'), icon: FileText },
             { label: 'My Jobs', href: route('employer.jobs.index'), icon: Briefcase },
         ],
         candidate: [
             { label: 'Dashboard', href: route('candidate.dashboard'), icon: Home },
             { label: 'My Profile', href: route('candidate.profile'), icon: User },
+            { label: 'Messages', href: route('messages.index'), icon: MessageCircle },
             { label: 'My Applications', href: route('candidate.applications.index'), icon: Briefcase },
             { label: 'Saved Jobs', href: route('candidate.saved-jobs.index'), icon: Bookmark },
         ],

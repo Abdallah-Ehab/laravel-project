@@ -27,6 +27,7 @@ class ApplicantController extends Controller
                 'id' => $app->id,
                 'candidate_name' => $app->candidate->name,
                 'candidate_email' => $app->candidate->email,
+                'candidate_phone' => $app->candidate->phone,
                 'candidate_avatar' => $app->candidate->avatar,
                 'candidate_bio' => $app->candidate->bio,
                 'resume_path' => $app->resume_path,

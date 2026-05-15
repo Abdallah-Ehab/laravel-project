@@ -13,6 +13,20 @@ use Inertia\Inertia;
 
 class MessageController extends Controller
 {
+    public function searchRecipients(Request $request)
+    {
+        $q = $request->get('q');
+        $users = User::where('id', '!=', Auth::id())
+            ->where(function ($query) use ($q) {
+                $query->where('name', 'like', "%{$q}%")
+                    ->orWhere('email', 'like', "%{$q}%");
+            })
+            ->take(10)
+            ->get()
+            ->map(fn($u) => $u->only(['id', 'name', 'email', 'avatar']));
+
+        return response()->json($users);
+    }
     public function index()
     {
         $user = Auth::user();

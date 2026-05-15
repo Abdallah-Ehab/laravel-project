@@ -14,13 +14,10 @@ export default function Show({ conversation, messages }) {
     const bottomRef = useRef(null);
     const inputRef = useRef(null);
 
-    const scrollToBottom = () => {
-        setTimeout(() => bottomRef.current?.scrollIntoView({ behavior: 'smooth' }), 50);
-    };
+
 
     useEffect(() => {
         setMessageList(messages.data || []);
-        scrollToBottom();
     }, [messages.data]);
 
     useEffect(() => {

@@ -89,6 +89,9 @@ export default function Applicants({ job, applications }) {
                                                     <span className="text-xs text-gray-400 italic truncate">"{app.cover_note.slice(0, 80)}..."</span>
                                                 )}
                                                 <span className="text-xs text-gray-400">{app.candidate_email}</span>
+                                                {app.candidate_phone && (
+                                                    <span className="text-xs text-gray-400">{app.candidate_phone}</span>
+                                                )}
                                             </div>
                                         </div>
                                         <div className="flex items-center gap-2 shrink-0">

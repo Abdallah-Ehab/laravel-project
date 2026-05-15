@@ -10,6 +10,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
         name: user.name,
         email: user.email,
+        phone: user.phone || '',
     });
 
     const submit = (e) => {
@@ -29,6 +30,11 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <Label htmlFor="email">Email</Label>
                     <Input id="email" type="email" value={data.email} onChange={e => setData('email', e.target.value)} required autoComplete="username" className="h-11 rounded-lg border-gray-200 mt-1" />
                     {errors.email && <p className="text-sm text-red-500 mt-1">{errors.email}</p>}
+                </div>
+                <div>
+                    <Label htmlFor="phone">Phone</Label>
+                    <Input id="phone" type="tel" value={data.phone} onChange={e => setData('phone', e.target.value)} autoComplete="tel" className="h-11 rounded-lg border-gray-200 mt-1" placeholder="+20 100 000 0000" />
+                    {errors.phone && <p className="text-sm text-red-500 mt-1">{errors.phone}</p>}
                 </div>
 
                 {mustVerifyEmail && user.email_verified_at === null && (

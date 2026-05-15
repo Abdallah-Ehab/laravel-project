@@ -31,6 +31,7 @@ export default function AppLayout({ children, title }) {
         ],
         candidate: [
             { label: 'Dashboard', href: route('candidate.dashboard'), icon: Home },
+            { label: 'My Profile', href: route('candidate.profile'), icon: User },
             { label: 'My Applications', href: route('candidate.applications.index'), icon: Briefcase },
             { label: 'Saved Jobs', href: route('candidate.saved-jobs.index'), icon: Bookmark },
         ],

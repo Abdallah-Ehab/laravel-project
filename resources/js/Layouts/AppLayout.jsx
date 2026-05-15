@@ -3,7 +3,7 @@ import { Head, Link, usePage } from '@inertiajs/react';
 import { Search, Bell, Menu, Home, Briefcase, Building2, ShieldCheck, Bookmark, FileText, User, Settings, LogOut, Users, X } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Button } from '@/ui/button';
-import { Avatar, AvatarFallback } from '@/ui/avatar';
+import { Avatar, AvatarFallback, AvatarImage } from '@/ui/avatar';
 import { Sheet, SheetContent, SheetTrigger } from '@/ui/sheet';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel, DropdownMenuSeparator, DropdownMenuTrigger } from '@/ui/dropdown-menu';
 import { ToastProvider, ToastViewport, Toast, ToastTitle, ToastDescription, ToastClose } from '@/ui/toast';
@@ -104,6 +104,7 @@ export default function AppLayout({ children, title }) {
                                             <DropdownMenuTrigger asChild>
                                                 <button className="h-9 w-9 rounded-full overflow-hidden ring-2 ring-white/10 hover:ring-white/30 transition ml-2">
                                                     <Avatar className="h-9 w-9">
+                                                        {auth.user.avatar && <AvatarImage src={`/storage/${auth.user.avatar}`} />}
                                                         <AvatarFallback className="text-xs font-semibold bg-gray-600 text-white">{initials}</AvatarFallback>
                                                     </Avatar>
                                                 </button>

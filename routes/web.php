@@ -8,6 +8,7 @@ use App\Http\Controllers\Employer\JobController as EmployerJobController;
 use App\Http\Controllers\Employer\ApplicantController as EmployerApplicantController;
 use App\Http\Controllers\Candidate\DashboardController as CandidateDashboardController;
 use App\Http\Controllers\Candidate\ApplicationController as CandidateApplicationController;
+use App\Http\Controllers\Candidate\ProfileController as CandidateProfileController;
 use App\Http\Controllers\Candidate\SavedJobController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\JobApprovalController as AdminJobApprovalController;
@@ -43,6 +44,7 @@ Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->
 
 Route::middleware(['auth', 'candidate'])->prefix('candidate')->name('candidate.')->group(function () {
     Route::get('/dashboard', [CandidateDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [CandidateProfileController::class, 'index'])->name('profile');
     Route::get('/applications', [CandidateApplicationController::class, 'index'])->name('applications.index');
     Route::get('/jobs/{job:slug}/apply', [CandidateApplicationController::class, 'create'])->name('apply.create');
     Route::post('/jobs/{job:slug}/apply', [CandidateApplicationController::class, 'store'])->name('apply.store');

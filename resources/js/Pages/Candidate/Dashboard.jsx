@@ -1,4 +1,4 @@
-import { Link, Head } from '@inertiajs/react';
+import { Link, Head, usePage } from '@inertiajs/react';
 import { Briefcase, CheckCircle, Clock, Bookmark, ArrowRight } from 'lucide-react';
 import AppLayout from '@/Layouts/AppLayout';
 import { Card, CardContent } from '@/ui/card';
@@ -14,6 +14,7 @@ const statusStyles = {
 };
 
 export default function Dashboard({ stats, recentApplications, recommendedJobs }) {
+    const { auth } = usePage().props;
     const today = new Date().toLocaleDateString('en-US', { weekday: 'long', month: 'long', day: 'numeric' });
 
     const statCards = [
@@ -26,7 +27,7 @@ export default function Dashboard({ stats, recentApplications, recommendedJobs }
     return (
         <AppLayout title="Candidate Dashboard">
             <div className="mb-8">
-                <h1 className="text-2xl font-bold text-[#1a1f36]">Good morning, Ahmed 👋</h1>
+                <h1 className="text-2xl font-bold text-[#1a1f36]">Good morning, {auth.user.name} 👋</h1>
                 <p className="text-sm text-gray-500 mt-1">{today}</p>
             </div>
 

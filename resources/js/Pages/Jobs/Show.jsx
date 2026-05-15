@@ -13,7 +13,7 @@ export default function Show({ job, hasApplied, isSaved, relatedJobs }) {
 
     const toggleSave = () => {
         if (!auth?.user) return;
-        router.post(route('candidate.jobs.save', job.id));
+        router.post(route('candidate.jobs.save', job.slug));
     };
 
     const initials = job.company_name?.split(' ').map(n => n[0]).join('').toUpperCase().slice(0, 2) || 'CO';

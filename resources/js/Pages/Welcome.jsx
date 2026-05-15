@@ -5,11 +5,15 @@ import { Button } from '@/ui/button';
 import { Badge } from '@/ui/badge';
 import { Card, CardContent } from '@/ui/card';
 
-export default function Welcome({ recentJobs, canLogin, canRegister }) {
-    const stats = [
-        { number: '12,400+', label: 'Jobs Posted' },
-        { number: '8,200+', label: 'Candidates' },
-        { number: '95%', label: 'Satisfaction Rate' },
+function formatNumber(n) {
+    return Number(n).toLocaleString();
+}
+
+export default function Welcome({ stats, recentJobs, canLogin, canRegister }) {
+    const statItems = [
+        { number: formatNumber(stats.jobs_count) + '+', label: 'Jobs Posted' },
+        { number: formatNumber(stats.candidates_count) + '+', label: 'Candidates' },
+        { number: formatNumber(stats.employers_count) + '+', label: 'Employers' },
     ];
 
     const howItWorks = [
@@ -88,7 +92,7 @@ export default function Welcome({ recentJobs, canLogin, canRegister }) {
             <section className="bg-white border-y border-gray-100">
                 <div className="max-w-4xl mx-auto px-4 py-10">
                     <div className="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center">
-                        {stats.map(stat => (
+                        {statItems.map(stat => (
                             <div key={stat.label}>
                                 <p className="text-3xl md:text-4xl font-bold text-[#14a800]">{stat.number}</p>
                                 <p className="text-sm text-gray-500 mt-1">{stat.label}</p>

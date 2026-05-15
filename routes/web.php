@@ -2,12 +2,14 @@
 
 use App\Http\Controllers\WelcomeController;
 use App\Http\Controllers\JobListingController;
+use App\Http\Controllers\MessageController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\Employer\DashboardController as EmployerDashboardController;
 use App\Http\Controllers\Employer\JobController as EmployerJobController;
 use App\Http\Controllers\Employer\ApplicantController as EmployerApplicantController;
 use App\Http\Controllers\Candidate\DashboardController as CandidateDashboardController;
 use App\Http\Controllers\Candidate\ApplicationController as CandidateApplicationController;
+use App\Http\Controllers\Candidate\ProfileController as CandidateProfileController;
 use App\Http\Controllers\Candidate\SavedJobController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\JobApprovalController as AdminJobApprovalController;
@@ -43,6 +45,7 @@ Route::middleware(['auth', 'employer'])->prefix('employer')->name('employer.')->
 
 Route::middleware(['auth', 'candidate'])->prefix('candidate')->name('candidate.')->group(function () {
     Route::get('/dashboard', [CandidateDashboardController::class, 'index'])->name('dashboard');
+    Route::get('/profile', [CandidateProfileController::class, 'index'])->name('profile');
     Route::get('/applications', [CandidateApplicationController::class, 'index'])->name('applications.index');
     Route::get('/jobs/{job:slug}/apply', [CandidateApplicationController::class, 'create'])->name('apply.create');
     Route::post('/jobs/{job:slug}/apply', [CandidateApplicationController::class, 'store'])->name('apply.store');
@@ -63,6 +66,12 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
 });
 
 Route::middleware('auth')->group(function () {
+    Route::get('/messages', [MessageController::class, 'index'])->name('messages.index');
+    Route::get('/messages/users/search', [MessageController::class, 'searchRecipients'])->name('messages.users.search');
+    Route::get('/messages/{conversation}', [MessageController::class, 'show'])->name('messages.show');
+    Route::post('/messages', [MessageController::class, 'store'])->name('messages.store');
+    Route::post('/messages/{conversation}/read', [MessageController::class, 'read'])->name('messages.read');
+
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');

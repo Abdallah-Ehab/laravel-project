@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\JobListing;
+use App\Models\User;
 use Illuminate\Http\Request;
 use Inertia\Inertia;
 
@@ -18,6 +19,11 @@ class WelcomeController extends Controller
             ->get();
 
         return Inertia::render('Welcome', [
+            'stats' => [
+                'jobs_count'       => JobListing::approved()->count(),
+                'candidates_count' => User::where('role', 'candidate')->count(),
+                'employers_count'  => User::where('role', 'employer')->count(),
+            ],
             'recentJobs' => $recentJobs->map(fn($job) => [
                 'id' => $job->id,
                 'slug' => $job->slug,

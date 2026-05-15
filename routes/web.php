@@ -11,6 +11,7 @@ use App\Http\Controllers\Candidate\ApplicationController as CandidateApplication
 use App\Http\Controllers\Candidate\SavedJobController;
 use App\Http\Controllers\Admin\DashboardController as AdminDashboardController;
 use App\Http\Controllers\Admin\JobApprovalController as AdminJobApprovalController;
+use App\Http\Controllers\Admin\UserController as AdminUserController;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
@@ -55,6 +56,10 @@ Route::middleware(['auth', 'admin'])->prefix('admin')->name('admin.')->group(fun
     Route::get('/approvals', [AdminJobApprovalController::class, 'index'])->name('approvals.index');
     Route::patch('/jobs/{job}/approve', [AdminJobApprovalController::class, 'approve'])->name('jobs.approve');
     Route::patch('/jobs/{job}/reject', [AdminJobApprovalController::class, 'reject'])->name('jobs.reject');
+    Route::get('/users', [AdminUserController::class, 'index'])->name('users.index');
+    Route::get('/users/{user}', [AdminUserController::class, 'show'])->name('users.show');
+    Route::patch('/users/{user}/ban', [AdminUserController::class, 'ban'])->name('users.ban');
+    Route::patch('/users/{user}/unban', [AdminUserController::class, 'unban'])->name('users.unban');
 });
 
 Route::middleware('auth')->group(function () {

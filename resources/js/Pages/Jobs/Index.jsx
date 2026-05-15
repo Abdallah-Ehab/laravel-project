@@ -1,5 +1,4 @@
-import { useState } from 'react';
-import { Link, Head } from '@inertiajs/react';
+import { Link, Head, router } from '@inertiajs/react';
 import AppLayout from '@/Layouts/AppLayout';
 import JobCard from '@/Components/JobCard';
 import JobFilters from '@/Components/JobFilters';
@@ -7,7 +6,11 @@ import Pagination from '@/Components/Pagination';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/ui/select';
 
 export default function Index({ jobs, categories, filters }) {
-    const [sort, setSort] = useState('recent');
+    const sort = filters?.sort || 'recent';
+
+    const setSort = (value) => {
+        router.get(route('jobs.index'), { ...(filters || {}), sort: value }, { preserveState: true, replace: true });
+    };
 
     return (
         <AppLayout title="Browse Jobs">
@@ -33,7 +36,7 @@ export default function Index({ jobs, categories, filters }) {
                         </p>
                         <div className="flex items-center gap-2">
                             <span className="text-xs text-gray-400">Sort by:</span>
-                            <Select defaultValue={sort} onValueChange={setSort}>
+                            <Select key={sort} value={sort} onValueChange={setSort}>
                                 <SelectTrigger className="h-8 w-40 text-sm border-gray-200 rounded-lg">
                                     <SelectValue />
                                 </SelectTrigger>

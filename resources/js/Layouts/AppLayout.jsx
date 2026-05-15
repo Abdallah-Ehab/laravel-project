@@ -1,6 +1,6 @@
 import { useState, useEffect } from 'react';
 import { Head, Link, usePage } from '@inertiajs/react';
-import { Search, Bell, Menu, Home, Briefcase, Building2, ShieldCheck, Bookmark, FileText, User, Settings, LogOut, X } from 'lucide-react';
+import { Search, Bell, Menu, Home, Briefcase, Building2, ShieldCheck, Bookmark, FileText, User, Settings, LogOut, Users, X } from 'lucide-react';
 import ApplicationLogo from '@/Components/ApplicationLogo';
 import { Button } from '@/ui/button';
 import { Avatar, AvatarFallback } from '@/ui/avatar';
@@ -37,6 +37,7 @@ export default function AppLayout({ children, title }) {
         admin: [
             { label: 'Dashboard', href: route('admin.dashboard'), icon: Home },
             { label: 'Job Approvals', href: route('admin.approvals.index'), icon: ShieldCheck },
+            { label: 'Users', href: route('admin.users.index'), icon: Users },
         ],
     };
 

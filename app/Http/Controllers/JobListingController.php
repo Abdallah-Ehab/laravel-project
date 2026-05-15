@@ -45,6 +45,10 @@ class JobListingController extends Controller
             $query->where('salary_min', '<=', $request->salary_max);
         }
 
+        if ($request->filled('company')) {
+            $query->where('company_name', 'like', "%{$request->company}%");
+        }
+
         if ($request->filled('date_posted')) {
             match ($request->date_posted) {
                 'today' => $query->whereDate('created_at', now()),

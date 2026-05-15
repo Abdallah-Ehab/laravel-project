@@ -210,7 +210,7 @@ export default function Show({ job, hasApplied, isSaved, relatedJobs }) {
                                     <p className="text-sm text-gray-500 leading-relaxed">{job.company_description}</p>
                                 )}
                                 <Link href={route('jobs.index', { company: job.company_name })} className="text-sm text-[#14a800] hover:text-[#108a00] font-medium mt-2 inline-block">
-                                    View Company Profile →
+                                    View all jobs by {job.company_name} →
                                 </Link>
                             </CardContent>
                         </Card>

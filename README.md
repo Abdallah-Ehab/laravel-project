@@ -2,13 +2,6 @@
 
 A multi-role job board platform built with Laravel, Inertia.js, and React. Employers can post job listings, candidates can browse and apply, and administrators oversee approvals and user management.
 
-![application screenshot](image.png)
-
-
-![dashboard](image-1.png)
-
-![jobs](image-2.png)
-
 ![Demo Description](output.gif)
 ---
 
@@ -61,12 +54,11 @@ composer run test
 
 | Page | Preview |
 |------|---------|
-| Home Page | ![Home](https://placehold.co/800x450/1a1a2e/eaeaea?text=Home+Page) |
-| Job Listings | ![Listings](https://placehold.co/800x450/1a1a2e/eaeaea?text=Job+Listings) |
-| Employer Dashboard | ![Employer](https://placehold.co/800x450/1a1a2e/eaeaea?text=Employer+Dashboard) |
+| Home Page | ![application screenshot](image.png) |
+| Job Listings | ![jobs](image-2.png) |
+| Employer Dashboard | ![dashboard](image-1.png) |
 | Candidate Dashboard | ![Candidate](https://placehold.co/800x450/1a1a2e/eaeaea?text=Candidate+Dashboard) |
-| Admin Approvals | ![Admin](https://placehold.co/800x450/1a1a2e/eaeaea?text=Admin+Approvals) |
-| Messaging | ![Messages](https://placehold.co/800x450/1a1a2e/eaeaea?text=Messaging) |
+
 
 ---
 

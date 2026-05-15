@@ -71,6 +71,18 @@ class User extends Authenticatable implements MustVerifyEmail
         return $this->banned_at !== null;
     }
 
+    public function conversations(): BelongsToMany
+    {
+        return $this->belongsToMany(Conversation::class, 'conversation_participants')
+            ->withPivot('last_read_at')
+            ->withTimestamps();
+    }
+
+    public function messages(): HasMany
+    {
+        return $this->hasMany(Message::class);
+    }
+
     public function scopeActive(Builder $query): Builder
     {
         return $query->whereNull('banned_at');
